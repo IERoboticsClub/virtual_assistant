@@ -1,0 +1,3 @@
+langchain==0.0.304
+python-dotenv==1.0.0
+openai==0.28.1
