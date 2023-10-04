@@ -1,3 +1,7 @@
 langchain==0.0.304
 python-dotenv==1.0.0
 openai==0.28.1
+streamlit~=1.27.1
+requests~=2.31.0
+geocoder~=1.38.1
+
