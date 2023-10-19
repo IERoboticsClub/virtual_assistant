@@ -12,6 +12,11 @@ load_dotenv()
 # I was not able to get the key to work loading from the env why?
 API_WEATHER_KEY = os.getenv("API_WEATHER_KEY")
 
+#Spotify API keys
+client_id = os.getenv("CLIENT_ID")
+client_secret = os.getenv("CLIENT_SECRET")
+refresh_token = os.getenv("REFRESH_TOKEN")
+
 #load gpt
 gpt_turbo = AzureChatOpenAI(deployment_name="gpt-turbo", temperature=0.5)
 
