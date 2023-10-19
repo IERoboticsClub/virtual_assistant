@@ -79,7 +79,7 @@ def find_artist(input_text):
     doc = nlp(input_text)
 
     # In spaCy, PERSON refers to names of people or fictional characters.
-    # If the artist name is an entity recognised by spaCy & has the GPE location prefix, return the city name
+    # If the artist name is an entity recognised by spaCy & has the PERSON label, return the artist name
     for entity in doc.ents:
         if entity.label_ == 'PERSON':
             return entity.text
@@ -187,13 +187,13 @@ def run_luna():
             #Responding to music questions
             if "music" == query_topic:
                 artist = find_artist(user_query)
-                artist_id = None  # Initialize artist_id to None
+                artist_id = None 
                 if artist:
                     token = get_token()
                     result = search_artist(token, artist)
                     if result:
                         artist_id = result["id"]
-                if artist_id:  # Check if artist_id is defined
+                if artist_id:  
                     token = get_token()
                     songs = get_song_by_artist(token, artist_id)
                     artistSongs = format_artist_playlist(songs)
