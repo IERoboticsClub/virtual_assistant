@@ -73,6 +73,7 @@ def run_luna():
 
                 if response.status_code == 200:
                     weather = response.json()
+                    print(weather['name'])
                     weather_description = weather.get("weather", [])[0].get("description")
 
                     # creating a more complete user question
@@ -80,8 +81,9 @@ def run_luna():
                     Instruction: You are an assistant that is providing information or advising the user.
                     Context (Weather details): in {weather['name']}, it is {weather['main']['temp']} degrees. Sky conditions: {weather_description}"
                     User query: {user_query}
-                    Answer:
+                    Answer (limit to 2 lines):
                     """
+
                     # generating answer
                     gpt3_answer = gpt_turbo.predict(llm_query)
                     st.text_area(label="Luna's answer: ", value=gpt3_answer, height=350)
