@@ -29,7 +29,6 @@ def run_luna():
 
         # if user_query is submitted
         if submitted:
-
             # let's make this model answer general questions and classify into topics
             identifying_topic = f""" Instruction: You have to identify the topic of a user query and match it ot one of the listed categories. 
                                 Return a string with the name of the chosen category.
@@ -41,12 +40,16 @@ def run_luna():
 
             # responding to weather questions
             if "weather" == query_topic:
-                weather_integration.weather_response(user_query)
+                response = weather_integration.weather_response(user_query)
+                return st.text_area(label="Luna's answer: ", value=response, height=350)
 
-            # MAKE TO ANSWER FOR CERTAIN WORD (So q parameter) + location
             # responding to news related queries
             elif "news" == query_topic:
-                news_integration.news_response(user_query)
+                response = news_integration.news_response(user_query)
+                if type(response) is str:
+                    return st.markdown(response, unsafe_allow_html=True)
+                else:
+                    return st.text_area("Failed to retrieve news. Status code:", response)
 
             # responding to other queries
             else:

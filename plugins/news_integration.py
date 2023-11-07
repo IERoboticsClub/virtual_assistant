@@ -17,9 +17,15 @@ NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
 #load gpt
 gpt_turbo = AzureChatOpenAI(deployment_name="gpt-turbo", temperature=0.5)
 
-#link formatting function
 def format_links(match):
-    # Extract the matched URL from the returned string
+    """
+    This function takes a regular expression match object and returns a string with an HTML link.
+    Inputs:
+        match: a regular expression match object
+    Outputs:
+        formatted_link: string
+    """
+
     url = match.group(0)
     return f'<a href="{url}" target="_blank">{url}</a>'
 
@@ -27,12 +33,11 @@ def format_links(match):
 # news response
 def news_response(user_query):
     """
-
+    This function takes a user query and returns a news article related to the query.
     Inputs:
         user_query: string
     Outputs:
         formatted_answer: string
-
     """
     identifying_news_topic = f""" Instruction: You have to identify whether or not the the news-related user query is interested in one topic of news specifically. Fin the list fo possible topics below. 
                         Possible topics: business, entertainment, health, science, sports, technology, other.
@@ -89,4 +94,4 @@ def news_response(user_query):
         return formatted_answer # st.markdown(formatted_answer, unsafe_allow_html=True)
 
     else:
-        return str("Failed to retrieve news. Status code:", top_headlines["status"]) #st.text_area("Failed to retrieve news. Status code:", top_headlines["status"])
+        return top_headlines["status"]
