@@ -12,11 +12,12 @@ load_dotenv()
 # I was not able to get the key to work loading from the env why?
 API_WEATHER_KEY = os.getenv("API_WEATHER_KEY")
 
-#load gpt
+# load gpt
 gpt_turbo = AzureChatOpenAI(deployment_name="gpt-turbo", temperature=0.5)
 
+
 # Find name of a city in a user_query
-def find_city(input_text):
+def find_city(input_text: str) -> str:
     """
     This function takes a user query and returns the name of a city if it is mentioned in the query.
     Inputs:
@@ -37,8 +38,9 @@ def find_city(input_text):
     else:
         return None
 
+
 # Find coordinates of a city
-def find_coordinates(city_name):
+def find_coordinates(city_name: str) -> tuple:
     """
     This function takes a city name and returns its coordinates.
     Inputs:
@@ -47,13 +49,12 @@ def find_coordinates(city_name):
         lat: float
         lon: float
     """
-
     geo_data = requests.get(
         f"https://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=10&appid={API_WEATHER_KEY}&units").json()
     return geo_data[0]["lat"], geo_data[0]["lon"]
 
 
-def weather_response(user_query):
+def weather_response(user_query: str) -> str:
     """
     This function takes a user query and returns a weather report.
     Inputs:
@@ -71,7 +72,7 @@ def weather_response(user_query):
     response = requests.get(
         f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_WEATHER_KEY}&units=metric")
 
-    if response.status_code == 200:
+    try:
         weather = response.json()
         if city:
             location = city
@@ -91,6 +92,7 @@ def weather_response(user_query):
         gpt3_answer = gpt_turbo.predict(llm_query)
         return gpt3_answer
 
-    else:
+    except Exception as e:
         return st.text_area("Failed to retrieve weather. Status code:", response.status_code)
 
+# is it a good day to spend the evening with my girlfriend in Madrid?
