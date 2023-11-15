@@ -10,7 +10,7 @@ import requests
 load_dotenv()
 
 # KEY
-NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
+NEWS_API_KEY = os.getenv("NEWSAPI_KEY")
 
 #load gpt
 gpt_turbo = AzureChatOpenAI(deployment_name="gpt-turbo", temperature=0.5)
@@ -105,7 +105,7 @@ def news_response(user_query:str) -> str:
 
     # API call
     top_headlines = requests.get(
-        f"https://newsapi.org/v2/everything?q={news_key_word}&from={start_date}&to={end_date}&sortBy=relevancy&apiKey={NEWSAPI_KEY}"
+        f"https://newsapi.org/v2/everything?q={news_key_word}&from={start_date}&to={end_date}&sortBy=relevancy&apiKey={NEWS_API_KEY}"
     ).json()
 
     print(top_headlines)
