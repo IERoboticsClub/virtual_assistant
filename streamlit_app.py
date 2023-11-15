@@ -2,9 +2,8 @@ from langchain.chat_models import AzureChatOpenAI
 from dotenv import load_dotenv
 import os
 import streamlit as st
-from plugins import news_integration
-from plugins import weather_integration
-
+from plugins.news_integration import news_response
+from plugins.weather_integration import weather_response
 
 # Load environment variables at the top to avoid errors
 load_dotenv()
@@ -40,21 +39,20 @@ def run_luna():
 
             # responding to weather questions
             if "weather" == query_topic:
-                response = weather_integration.weather_response(user_query)
-                return st.text_area(label="Luna's answer: ", value=response, height=350)
+                response = weather_response(user_query)
+                st.text_area(label="Luna's answer: ", value=response, height=350)
 
             # responding to news related queries
             elif "news" == query_topic:
-                response = news_integration.news_response(user_query)
+                response = news_response(user_query)
                 if type(response) is str:
-                    return st.markdown(response, unsafe_allow_html=True)
+                    st.markdown(response, unsafe_allow_html=True)
                 else:
-                    return st.text_area("Failed to retrieve news. Status code:", response)
+                    st.text_area("Failed to retrieve news. Status code:", response)
 
             # responding to other queries
             else:
                 gpt3_answer = gpt_turbo.predict(user_query)
                 st.text_area(label="Luna's answer: ", value=gpt3_answer, height=350)
-
 
 run_luna()
