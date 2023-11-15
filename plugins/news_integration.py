@@ -10,7 +10,7 @@ import requests
 load_dotenv()
 
 # KEY
-NEWS_API_KEY = os.getenv("NEWSAPI_KEY")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
 #load gpt
 gpt_turbo = AzureChatOpenAI(deployment_name="gpt-turbo", temperature=0.5)
